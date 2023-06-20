@@ -1,7 +1,9 @@
+//JavaScript defines the user interaction of the web app
+
 let techLevel = 1;
 let time = 2023;
 let timer = 0;
-let health = 10;
+let health = 100;
 let weaponInGame = document.getElementById("weaponInGame");
 let bulletInterval;
 let spawnVillainInterval, moveVillainsInterval, checkCollisionInterval;
