@@ -1,4 +1,19 @@
-const DarkForest = Object.create(null); //define the null function collection
+let techLevel = 1;
+let time = 2023;
+let timer = 0;
+let health = 10;
+let weaponInGame = document.getElementById("weaponInGame");
+let bulletInterval;
+let spawnVillainInterval, moveVillainsInterval, checkCollisionInterval;
+
+    // Spawn a new villain every 10 seconds
+    setInterval(spawnVillain, 1000);
+
+    // Move villains every 50ms
+    setInterval(moveVillains, 50);
+
+    setInterval(checkCollision, 50);
+    
 
 function spawnVillain() {
     let villain = document.createElement('div');
@@ -9,15 +24,40 @@ function spawnVillain() {
     gameArea.appendChild(villain);
 }
 
+function updateHealthDisplay() {
+    // Update the health displayed in HTML
+    document.getElementById('health').textContent = "Health: " + health + "%";
+}
+
 function moveVillains() {
     let villains = document.getElementsByClassName('villain');
     for (let i = 0; i < villains.length; i++) {
         let villain = villains[i];
-    // Move the villain down the screen
         villain.style.top = (parseInt(villain.style.top) + 1) + 'px';
-}
-}
 
+        // Check if the villain is within or below the 50px from the bottom of the screen
+        if (window.innerHeight - villain.getBoundingClientRect().bottom <= 50) {
+            health--; // Decrease the health by 1
+
+            // Remove the villain from the game area
+            villain.remove();
+        }
+    }
+
+    // Call the health update function once per loop
+    updateHealthDisplay();
+    // Check if health has reached 0
+    if (health <= 0) {
+        // Stop the game
+        clearInterval(spawnVillainInterval);
+        clearInterval(moveVillainsInterval);
+        clearInterval(checkCollisionInterval);
+
+        // Display game over screen
+        document.getElementById('gameOverScreen').style.display = 'block';
+
+    }
+}
 document.getElementById("startButton").onclick = function() {
     document.getElementById("splashScreen").style.display = "none";
     document.getElementById("gameContainer").style.display = "flex";
@@ -28,19 +68,11 @@ document.getElementById("startButton").onclick = function() {
     startGame();
 };
 
-
-
-
 document.getElementById("retryButton").onclick = function() {
     location.reload();
 };
 
-let techLevel = 1;
-let time = 2023;
-let timer = 0;
-let health = 100;
-let weaponInGame = document.getElementById("weaponInGame");
-let bulletInterval;
+
 
 
 function startGame() {
@@ -53,23 +85,16 @@ function startGame() {
 
         let weaponImage = document.getElementById("weapon");
         if (techLevel >= 1 && techLevel <= 3) {
-            weaponImage.src = "spaceship_lv1.png";
+            weaponImage.src = "assets/spaceship_lv1.png";
         } else if (techLevel >= 4 && techLevel <= 8) {
-            weaponImage.src = "spaceship_lv2.png";
+            weaponImage.src = "assets/spaceship_lv2.png";
         } else if (techLevel >= 9 && techLevel <= 15) {
-            weaponImage.src = "spaceship_lv3.png";
+            weaponImage.src = "assets/spaceship_lv3.png";
         }
         weaponInGame.src = weapon.src;
     }, 30000);
 
-    // Spawn a new villain every 10 seconds
-    setInterval(spawnVillain, 1000);
 
-    // Move villains every 50ms
-    setInterval(moveVillains, 50);
-
-    setInterval(checkCollision, 50);
-    
     
     setInterval(function() {
         timer++;
@@ -198,7 +223,7 @@ for (let j = 0; j < bullets.length; j++) {
         // increase hit counter and check if villain has been hit 3 times
         villain.hitCounter = (villain.hitCounter || 0) + 1;
         if (villain.hitCounter >= 3) {
-            villain.style.backgroundImage = "url('explode.gif')";
+            villain.style.backgroundImage = "url('assets/explode.gif')";
             setTimeout(function() {
                 villain.remove();
             }, 1000); // remove the villain after 1 second
