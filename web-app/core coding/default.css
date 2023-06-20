@@ -1,5 +1,6 @@
 /*CSS defines the appearance of the web app*/
 
+/* import a new font*/
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         body {
             background-color: black;
