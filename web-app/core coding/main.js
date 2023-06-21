@@ -13,7 +13,11 @@ let health = 100;
 let weaponInGame = document.getElementById("weaponInGame");
 let bulletInterval;
 let spawnVillainInterval, moveVillainsInterval, checkCollisionInterval;
+let gamdumTimeout; 
+//let gamdumActive = false;  // gamdum status is set as false at the very beginning
 
+
+//-----------------------------------------------------------------------------------------------------
     // Spawn a new villain every 10 seconds
     setInterval(spawnVillain, 1000);
 
@@ -31,6 +35,14 @@ function spawnVillain() {
     villain.style.left = Math.random() * (gameArea.offsetWidth - villain.offsetWidth) + 'px';
     villain.style.top = '0px';
     gameArea.appendChild(villain);
+    /* Don't spawn villains when gamdum is active
+    if (!gamdumActive) {
+        let villain = document.createElement('div');
+        villain.className = 'villain';
+       villain.style.left = Math.random() * (gameArea.offsetWidth - villain.offsetWidth) + 'px';
+        villain.style.top = '0px';
+        gameArea.appendChild(villain);
+    }*/
 }
 
 //Set a function to move the villain spaceships move downward the game area
@@ -39,6 +51,20 @@ function moveVillains() {
     for (let i = 0; i < villains.length; i++) {
         let villain = villains[i];
         villain.style.top = (parseInt(villain.style.top) + 1) + 'px';
+/*
+        // Don't move villains when gamdum is active
+    if (!gamdumActive) {
+        let villains = document.getElementsByClassName('villain');
+        for (let i = 0; i < villains.length; i++) {
+            let villain = villains[i];
+            villain.style.top = (parseInt(villain.style.top) + 1) + 'px';*/
+            
+            if (window.innerHeight - villain.getBoundingClientRect().bottom <= 50) {
+                health--;
+                villain.remove();
+            }
+    //    }
+    //}
 
         // Check if the villain is within or below the 50px from the bottom of the screen
         if (window.innerHeight - villain.getBoundingClientRect().bottom <= 50) {
@@ -91,7 +117,48 @@ document.getElementById("startButton").onclick = function() {       //When the "
 document.getElementById("retryButton").onclick = function() {
     location.reload();
 };
+
 //-----------------------------------------------------------------------------------------------------
+
+
+
+/*
+//-----------------------------------------------------------------------------------------------------
+//Gamdum!!!
+// Add event listener to gamdumButton
+document.getElementById("gamdumButton").onclick = function() {
+    spawnGamdum();
+};
+
+function spawnGamdum() {
+    // show gundam
+    let gamdum = document.createElement('img');
+    gamdum.src = "assets/gamdum.gif";
+    gamdum.style.width = "100%";
+    gamdum.style.height = "100%";
+    gamdum.style.position = "absolute";
+    gamdum.style.top = "0";
+    gamdum.style.left = "0";
+    gamdum.id = "gamdum";
+    gameArea.appendChild(gamdum);
+    
+    // set gamdumActive to true
+    gamdumActive = true;
+    
+    // destroy all villains immediately
+    let villains = document.getElementsByClassName('villain');
+    while(villains[0]) {
+        villains[0].parentNode.removeChild(villains[0]);
+    }
+
+    // hide gundam after 3 seconds and enable spawning and moving villains
+    gamdumTimeout = setTimeout(function() {
+        gamdum.parentNode.removeChild(gamdum);
+        gamdumActive = false;
+    }, 3000);
+}
+//-----------------------------------------------------------------------------------------------------
+*/
 
 
 
@@ -111,7 +178,7 @@ function startGame() {
             weaponImage.src = "assets/spaceship_lv1.png";
         } else if (techLevel >= 4 && techLevel <= 8) {
             weaponImage.src = "assets/spaceship_lv2.png";
-        } else if (techLevel >= 9 && techLevel <= 15) {
+        } else if (techLevel >= 9 && techLevel <= 100) {
             weaponImage.src = "assets/spaceship_lv3.png";
         }
         weaponInGame.src = weapon.src;
@@ -196,7 +263,7 @@ document.addEventListener('keydown', function(event) {
 
 //-----------------------------------------------------------------------------------------------------
 //the bullet settings of the spaceship
-function fireBullets() {
+
     bulletInterval = setInterval(function() {
         let bulletNumber;
         if (techLevel >= 1 && techLevel <= 3) {
@@ -230,7 +297,7 @@ function fireBullets() {
     document.addEventListener('keydown', function(event) {
     });
 }
-}
+
 //----------------------------------------------------------------------------------------------------
 
 
