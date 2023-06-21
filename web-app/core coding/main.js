@@ -14,6 +14,8 @@ let weaponInGame = document.getElementById("weaponInGame");
 let bulletInterval;
 let spawnVillainInterval, moveVillainsInterval, checkCollisionInterval;
 let gamdumTimeout; 
+let score =0;
+let villainSpeed =1;
 //let gamdumActive = false;  // gamdum status is set as false at the very beginning
 
 
@@ -29,12 +31,15 @@ let gamdumTimeout;
     
 //Set a function to generate villain spaceship
 function spawnVillain() {
-    let villain = document.createElement('div');
-    villain.className = 'villain';
-    // Randomly position the villain along the x-axis at the top of the game area
-    villain.style.left = Math.random() * (gameArea.offsetWidth - villain.offsetWidth) + 'px';
-    villain.style.top = '0px';
-    gameArea.appendChild(villain);
+    // Spawn villains according to the techLevel
+    for(let j = 0; j <= Math.floor(techLevel / 2); j++){
+        let villain = document.createElement('div');
+        villain.className = 'villain';
+        // Randomly position the villain along the x-axis at the top of the game area
+        villain.style.left = Math.random() * (gameArea.offsetWidth - villain.offsetWidth) + 'px';
+        villain.style.top = '0px';
+        gameArea.appendChild(villain);
+    }
     /* Don't spawn villains when gamdum is active
     if (!gamdumActive) {
         let villain = document.createElement('div');
@@ -183,7 +188,20 @@ function startGame() {
         }
         weaponInGame.src = weapon.src;
     }, 30000);
+        // Increase villain speed every time techLevel increases by 2
 
+        // Function to upgrade technology level
+function upgradeTechLevel() {
+    techLevel++;
+
+    // Increase villain speed every time techLevel increases by 2
+    if(techLevel % 2 == 0) {
+        villainSpeed += 0.5;
+    }
+}
+
+// Call upgradeTechLevel every 30 seconds (10000 milliseconds = 10 seconds)
+setInterval(upgradeTechLevel, 30000);
 
     
     setInterval(function() {
@@ -332,6 +350,9 @@ for (let j = 0; j < bullets.length; j++) {
             setTimeout(function() {
                 villain.remove();
             }, 1000); // remove the villain after 1 second
+            
+            score=score+7; // Increment the score
+            document.getElementById('score').textContent = score; // Update the score display
         }
 
         break;

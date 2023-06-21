@@ -20,7 +20,7 @@ Witness the transformation of your ship, "The Peregrine Falcon." It receives its
 
 So, gear up, pilot! Immerse yourself in the thrill of combat and protect our mother planet. The survival of Earth rests in your hands!
 
-
+### The number and the speed of the villain spaceship will increase as the technology level increases! Try to break your limitation and get a higher score, Pilot.
 
 
 ## Checklist
