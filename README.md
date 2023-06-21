@@ -9,7 +9,7 @@ The dark forest hypothesis is the conjecture that many alien civilizations exist
 
 In simple words, which means all civilizations in the universe exist in hostile relationships with each other, because they can't be sure if the other one is a well-meaning civilization. So attack is the best way to protect themselves.
 
-#Game Instrunction
+## Game Instrunction
 In the far reaches of the cosmos, a formidable threat has emerged. Lizard people from Kepler-186f, an Earth-like planet located 500 light years away, have discovered our home planet. Armed with the Dark Forest Theory, they have unleashed an unparalleled wave of devastation upon Earth.
 
 In these desperate times, you step up to the challenge. As a distinguished pilot of the Rebel Alliance, renowned for your exemplary flying skills, you find yourself at the vanguard of Starfleet. Commanding the highly maneuverable starship - "The Peregrine Falcon," **controlled by the WSAD keys**, your mission is to protect our mother planet by eliminating the villainous alien spaceships swarming from the vast expanse of the universe.
