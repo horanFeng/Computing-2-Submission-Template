@@ -1,14 +1,117 @@
-import R from "./ramda.js"
-//-----------------------------------------------------------------------------------------------------
+import R from "./ramda.js";
+//------------------------------------------------------------------------------
 // JavaScript defines the user interaction of the web app
-//-----------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 /**
- * @file This file contains the core game mechanisms and user interactions for the web app.
+ * @file This file contains the core game mechanisms
+ * and user interactions for the web app.
  * @version 1.0.0
  */
 
-//------------------------------------------------------------------------------------------------------
+
+/**
+ * Connect4.js is a module to model and play "Connect Four" and related games.
+ * @namespace The Dark Forest
+ * @author Hal Feng
+ * @version 22/6/2023
+ */
+const Forest = Object.create(null);
+
+/**
+ * A Board is an rectangular grid that tokens can be placed into one at a time.
+ * Tokens fill up empty positions from the bottom of a column upwards.
+ * It is implemented as an array of columns (rather than rows) of tokens
+ * (or empty positions)
+ * @memberof Forest
+ * @typedef {Forest.Spaceship_or_empty[][]} Board
+ */
+
+/**
+ * A token is a coloured disk that players place in the grid.
+ * @memberof Forest
+ * @typedef {(1 | 2)} Token
+ */
+
+/**
+ * Either a token or an empty position.
+ * @memberof Connect4
+ * @typedef {(Connect4.Token | 0)} Token_or_empty
+ */
+
+/**
+ * A set of template token strings for {@link Connect4.to_string_with_tokens}.
+ * @memberof Connect4
+ * @enum {string[]}
+ * @property {string[]} default ["0", "1", "2"] Displays tokens by their index.
+ * @property {string[]} disks ["⚫", "🔴", "🟡"]
+ * Displays tokens as coloured disks.
+ * @property {string[]} zombies ["🟫", "🚧", "🧟"]
+ * Displays tokens as zombies and barricades.
+ */
+Connect4.token_strings = Object.freeze({
+    "default": ["0", "1", "2"],
+    "disks": ["⚫", "🔴", "🟡"],
+    "zombies": ["🟫", "🚧", "🧟"]
+});
+
+/**
+ * Create a new empty board.
+ * Optionally with a specified width and height,
+ * otherwise returns a standard 7 wide, 6 high board.
+ * @memberof Connect4
+ * @function
+ * @param {number} [width = 7] The width of the new board.
+ * @param {number} [height = 6] The height of the new board.
+ * @returns {Connect4.Board} An empty board for starting a game.
+ */
+Connect4.empty_board = function (width = 7, height = 6) {
+    return R.repeat(R.repeat(0, height), width);
+};
+
+/**
+ * This helper function takes a board, and for each column, returns either
+ * the column's index if it has free slots, or `-1` if it is full.
+ * @function
+ * @param {Connect4.Board} board The board to label.
+ * @returns {number[]} Array containing the column index if free or `-1` if full
+ */
+const label_free_columns = R.addIndex(R.map)((column, index) => (
+    R.includes(0, column)
+    ? index
+    : -1
+));
+
+/**
+ * Returns an array of which column numbers are free to place a token in.
+ * @memberof Connect4
+ * @function
+ * @param {Connect4.Board} board The board to check for free columns.
+ * @returns {number[]} An array of column indices of free columns.
+ */
+Connect4.free_columns = R.pipe(
+    label_free_columns,
+    R.reject(R.equals(-1))
+);
+
+/**
+ * Returns if a game has ended,
+ * either because a player has won or the board is full.
+ * @memberof Connect4
+ * @function
+ * @param {Connect4.Board} board The board to test.
+ * @returns {boolean} Whether the game has ended.
+ */
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
 // Core mechanism of the game
 // Set the initial values of the variables
 
@@ -23,7 +126,7 @@ let health = 100;
 /** @type {Object} */
 let weaponInGame = document.getElementById("weaponInGame");
 let bulletInterval;
-let spawnVillainInterval, moveVillainsInterval, checkCollisionInterval;
+let spawnVillainInterval; moveVillainsInterval; checkCollisionInterval;
 
 /**
  * Spawn a new villain every 10 seconds
@@ -44,9 +147,10 @@ setInterval(checkCollision, 50);
  * Function to generate a villain spaceship.
  */
 function spawnVillain() {
-    let villain = document.createElement('div');
-    villain.className = 'villain';
-    // Randomly position the villain along the x-axis at the top of the game area
+    let villain = document.createElement("div");
+    villain.className = "villain";
+    // Randomly position the villain along 
+    //the x-axis at the top of the game area
     villain.style.left = Math.random() * (gameArea.offsetWidth - villain.offsetWidth) + 'px';
     villain.style.top = '0px';
     gameArea.appendChild(villain);
@@ -271,3 +375,5 @@ for (let j = 0; j < bullets.length; j++) {
 }
 }
 }
+
+export default Object.freeze(The_Dark_Forest);
